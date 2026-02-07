@@ -56,7 +56,7 @@ const FileCheck = (props) => (
 
 // --- CONFIGURATION ---
 const TEACHER_GOOGLE_SCRIPT_URL =
-  'https://script.google.com/machttps://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/execros/s/AKfycbwWx9qHWh8BxPPwKxr35PIZ6TN0_rKRtQdPndZuGiQkiSA8UbpGTy3DjHpuXW2JdUo2IQ/exec';
+  'https://script.google.com/machttps://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/execros/s/AKfycbwWx9qHWhttps://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/exech8BxPPwKxr35PIZ6TN0_rKRtQdPndZuGiQkiSA8UbpGTy3DjHpuXW2JdUo2IQ/exec';
 
 // --- DATA: QUESTIONS ---
 const QUESTIONS = [
