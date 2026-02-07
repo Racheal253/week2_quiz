@@ -13,7 +13,7 @@ const FileCheck = (props) => <Icon {...props}><path d="M14.5 2H6a2 2 0 0 0-2 2v1
 
 // --- CONFIGURATION ---
 // PASTE YOUR GOOGLE SCRIPT URL HERE
-const TEACHER_GOOGLE_SCRIPT_URL = "https://scrihttps://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/execpt.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/exec"; 
+const TEACHER_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/exec"; 
 
 // --- DATA: QUESTIONS ---
 const QUESTIONS = [
@@ -93,24 +93,24 @@ export default function App() {
     const total = QUESTIONS.length;
     const timeTakenStr = `${Math.floor((20 * 60 - timeLeft) / 60)}m ${(20 * 60 - timeLeft) % 60}s`;
     
-    // --- UPDATED: Plain Text JSON Method (Most Robust) ---
-    const payload = {
-      name: userData.name,
-      email: userData.email || 'N/A',
-      score: score,
-      total: total,
-      timeTaken: timeTakenStr
-    };
-
+    // --- UPDATED: Back to Form Data (Highest Reliability) ---
     let sheetSuccess = false;
     if (TEACHER_GOOGLE_SCRIPT_URL) {
       try {
+        const formData = new URLSearchParams();
+        formData.append('name', userData.name);
+        formData.append('email', userData.email || 'N/A');
+        formData.append('score', score);
+        formData.append('total', total);
+        formData.append('timeTaken', timeTakenStr);
+
         await fetch(TEACHER_GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
-          // Use text/plain to avoid CORS preflight options
-          headers: { "Content-Type": "text/plain;charset=utf-8" }, 
-          body: JSON.stringify(payload)
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: formData.toString()
         });
         sheetSuccess = true;
       } catch (e) { console.error("Sheet Error", e); }
