@@ -13,7 +13,7 @@ const FileCheck = (props) => <Icon {...props}><path d="M14.5 2H6a2 2 0 0 0-2 2v1
 
 // --- CONFIGURATION ---
 // PASTE YOUR GOOGLE SCRIPT URL HERE
-const TEACHER_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyVnVhyhttps://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/execI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/exec"; 
+const TEACHER_GOOGLE_SCRIPT_URL = "https://script.google.com/macrhttps://script.google.com/macros/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/execos/s/AKfycbyVnVhyI3R6kcTusDbnDMjssDKsZL-8GgK2GH-VrRD08zQhrQ9MSB500jAMarPX8TF1Gg/exec"; 
 
 // --- DATA: QUESTIONS ---
 const QUESTIONS = [
@@ -93,7 +93,7 @@ export default function App() {
     const total = QUESTIONS.length;
     const timeTakenStr = `${Math.floor((20 * 60 - timeLeft) / 60)}m ${(20 * 60 - timeLeft) % 60}s`;
     
-    // --- NEW JSON PAYLOAD ---
+    // --- UPDATED: Use Form Data for better Google Script Compatibility ---
     const payload = {
       name: userData.name,
       email: userData.email || 'N/A',
@@ -105,12 +105,15 @@ export default function App() {
     let sheetSuccess = false;
     if (TEACHER_GOOGLE_SCRIPT_URL) {
       try {
+        const formData = new URLSearchParams();
+        Object.keys(payload).forEach(key => formData.append(key, payload[key]));
+
         await fetch(TEACHER_GOOGLE_SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
-          // IMPORTANT: Using text/plain prevents strict CORS blocks
-          headers: { "Content-Type": "text/plain" }, 
-          body: JSON.stringify(payload)
+          // Standard form encoding is often more reliable for App Script triggers
+          headers: { "Content-Type": "application/x-www-form-urlencoded" }, 
+          body: formData.toString()
         });
         sheetSuccess = true;
       } catch (e) { console.error("Sheet Error", e); }
